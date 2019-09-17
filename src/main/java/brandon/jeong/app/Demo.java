@@ -77,9 +77,18 @@ public class Demo {
 	}
 	
 	public static void decrypt(byte[] pubByte, byte[] mskByte, byte[] prvByte, byte[] cphByte, byte[] cipherData) throws Exception {
+		String pubStr = new String(pubByte, "ISO-8859-1");
+		String prvStr = new String(prvByte, "ISO-8859-1");
+		String cphStr = new String(cphByte, "ISO-8859-1");
+		pubByte = pubStr.getBytes("ISO-8859-1");
+		prvByte = prvStr.getBytes("ISO-8859-1");
+		cphByte = cphStr.getBytes("ISO-8859-1");
+		
 		BswabePub pub = SerializeUtils.unserializeBswabePub(pubByte);
 		BswabePrv prv = SerializeUtils.unserializeBswabePrv(pub, prvByte);
 		BswabeCph cph = SerializeUtils.bswabeCphUnserialize(pub, cphByte);
+		
+		
 				
 		BswabeElementBoolean result = Bswabe.dec(pub, prv, cph);
 		byte[] decryptedMessage = AESCoder.decrypt(result.e.toBytes(), cipherData);
